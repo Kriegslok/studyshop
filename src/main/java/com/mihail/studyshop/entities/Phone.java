@@ -1,7 +1,10 @@
 package com.mihail.studyshop.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,20 +14,23 @@ import java.util.UUID;
 public class Phone {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid-gen")
     private UUID guid;
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @CreationTimestamp
     private LocalDateTime dateCreate;
     private String phoneNumber;
     private Boolean isPrimary;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@JoinColumn(name="manager_guid", nullable=false)
+    @JoinColumn(name = "manager_guid")
+    @JsonBackReference
     private Manager manager;
 
-    public Phone() {
+    protected Phone() {
     }
 
     public Phone(String phoneNumber, Boolean isPrimary){
+        //this.guid = UUID.randomUUID();
         this.phoneNumber = phoneNumber;
         this.isPrimary = isPrimary;
         this.dateCreate = LocalDateTime.now();

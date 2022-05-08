@@ -1,31 +1,38 @@
 package com.mihail.studyshop.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 public class Manager {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid-gen")
     private UUID guid;
     private String firstName;
     private String lastName;
     private String inn;
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @CreationTimestamp
     private LocalDateTime dateCreate;
     private Boolean isBlocked;
     private Boolean isOnHoliday;
     private LocalDateTime employmentDate;
     private LocalDateTime firedDate;
-    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Phone> phones;
+
+   @OneToMany(mappedBy = "manager",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   @JsonManagedReference
+    private List<Phone> phones = new ArrayList<>();
     //private List<Email> emails;
+
 
     protected Manager() {
     }
