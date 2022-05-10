@@ -8,6 +8,8 @@ import java.util.UUID;
 public interface ManagerRepository extends JpaRepository<Manager, UUID> {
     List<Manager> findByFirstName(String firstName);
 
+    List<Manager> findByLastName(String lastName);
+
     List<Manager> findByFirstNameAndLastName(String firstName, String lastName);
 
     boolean existsByFirstNameAndLastName(String firstName, String lastName);

@@ -77,7 +77,7 @@ public class ManagerServiceImpl implements ManagerService {
         List<Manager> managers = new ArrayList<>();
         managers = managerRepository.findByFirstNameAndLastName(firstName, lastName);
         if(managers.isEmpty()) throw new IllegalArgumentException(
-                "author with id: " + firstName + " " + lastName + " could not be found");
+                "author with firstName and lastName: " + firstName + " " + lastName + " could not be found");
         return managers;
     }
 
@@ -86,7 +86,16 @@ public class ManagerServiceImpl implements ManagerService {
         List<Manager> managers = new ArrayList<>();
         managers = managerRepository.findByFirstName(firstName);
         if(managers.isEmpty()) throw new IllegalArgumentException(
-                "author with id: " + firstName + " could not be found");
+                "author with firstName: " + firstName + " could not be found");
+        return managers;
+    }
+
+    @Override
+    public List<Manager> findByLastName(String lastName) {
+        List<Manager> managers = new ArrayList<>();
+        managers = managerRepository.findByLastName(lastName);
+        if(managers.isEmpty()) throw new IllegalArgumentException(
+                "author with lastName: " + lastName + " could not be found");
         return managers;
     }
 

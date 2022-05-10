@@ -1,5 +1,6 @@
 package com.mihail.studyshop.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -14,6 +15,19 @@ import java.util.UUID;
 
 @Entity
 public class Manager {
+    @Transient
+    @JsonIgnore
+    public static final String ON_HOLIDAY = "on holiday";
+    @Transient
+    @JsonIgnore
+    public static final String NOT_ON_HOLIDAY = "not on holiday";
+    @Transient
+    @JsonIgnore
+    public static final String BLOCKED = "blocked";
+    @Transient
+    @JsonIgnore
+    public static final String NOT_BLOCKED = "on duty";
+
     @Id
     @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
     @GeneratedValue(generator = "uuid-gen")

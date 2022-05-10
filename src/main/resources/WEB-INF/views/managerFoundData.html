@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Title</title>
+</head>
+<body>
+<table style="border: 1px solid gray; border-collapse: collapse;">
+    <tr>
+        <th style="border: 1px solid gray;">№</th>
+        <th style="border: 1px solid gray;">guid</th>
+        <th style="border: 1px solid gray;">Имя</th>
+        <th style="border: 1px solid gray;">Фамилия</th>
+        <th style="border: 1px solid gray;">ИНН</th>
+        <th style="border: 1px solid gray;">Телефон</th>
+        <th style="border: 1px solid gray;">+</th>
+
+        <th style="border: 1px solid gray;">В отпуске</th>
+        <th style="border: 1px solid gray;">Заблокирован</th>
+        <th style="border: 1px solid gray;">Создан</th>
+        <th style="border: 1px solid gray;">Нанят</th>
+        <th style="border: 1px solid gray;">Уволен</th>
+    </tr>
+    <tr data-th-each="manager : ${managers}">
+        <td style="border: 1px solid gray;"><p th:text="${number}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${manager.guid}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${manager.firstName}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${manager.lastName}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${manager.inn}"></p></td>
+        <td style="border: 1px solid gray;">
+            <table>
+                <tr th:each="phone:${manager.phones}">
+                    <td th:text="${phone.phoneNumber}"></td>
+                </tr>
+            </table>
+        </td>
+
+        <td style="border: 1px solid gray;">
+            <form method="get" action="/addManagersPhone">
+                <input name="managerGuid" type="hidden" th:value="${manager.guid}"/>
+                <input type="submit" value="+" />
+            </form>
+        </td>
+
+
+
+        <td style="border: 1px solid gray;"><p th:text="${#objects.nullSafe(manager.getOnHoliday(),false)}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${#objects.nullSafe(manager.getBlocked(),false)}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${manager.dateCreate}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${manager.employmentDate}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${manager.firedDate}"></p></td>
+    </tr>
+
+
+</table>
+
+<br>
+<a href="/addNewManager">Add manager</a>
+<br>
+<a href="/searchManager">Search Manager</a>
+
+</body></html>

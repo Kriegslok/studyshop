@@ -30,6 +30,8 @@ public interface ManagerService {
 
     List<Manager> findByFirstName(String firstName);
 
+    List<Manager> findByLastName(String firstName);
+
     public List<Phone> getManagerPhones(UUID managerGuid);
 
     public Manager addPhoneToManager(UUID managerGuid, Phone phone);
