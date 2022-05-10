@@ -30,7 +30,7 @@ public class PhoneServiceImpl implements PhoneService {
     @Override
     public Phone addPhone(Phone phone) {
         if (phone.getPrimary() == null || phone.getPhoneNumber() == null)
-            throw new IllegalArgumentException("author need a zipcode");
+            throw new IllegalArgumentException("Phone number is null or Primary is null");
         Phone phone1 = new Phone(phone.getPhoneNumber(), phone.getPrimary());
 //        phone1.setManager(managerService.getManager(phone.getManager().getGuid()));
 

@@ -1,20 +1,14 @@
 package com.mihail.studyshop.rest;
 
 import com.mihail.studyshop.entities.Manager;
-import com.mihail.studyshop.entities.ManagerRepository;
 import com.mihail.studyshop.entities.Phone;
-import com.mihail.studyshop.entities.synthetic.SyntheticManager;
+import com.mihail.studyshop.entities.dto.ManagerDto;
 import com.mihail.studyshop.service.ManagerService;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 //@RestController
@@ -34,7 +28,7 @@ public class ManagerController {
 //    }
 
     @PostMapping(path = "/manager", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    Manager newManager(SyntheticManager newManager) {
+    Manager newManager(ManagerDto newManager) {
         Manager manager = new Manager(newManager.getFirstName(), newManager.getLastName(), newManager.getInn());
         manager.setPhones(Arrays.asList(new Phone(newManager.getPhone(), true)));
         return managerService.addManger(manager);

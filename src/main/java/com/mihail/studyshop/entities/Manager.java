@@ -51,6 +51,14 @@ public class Manager {
     protected Manager() {
     }
 
+    /**
+     * Do NOT use to create new instances in database
+     * @param guid
+     */
+    protected Manager(UUID guid) {
+        this.guid = guid;
+    }
+
     public Manager(String firstName, String lastName, String inn) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -1,12 +1,12 @@
-package com.mihail.studyshop.entities.synthetic;
+package com.mihail.studyshop.entities.dto;
 
-public class SyntheticManager {
+public class ManagerDto {
     String firstName;
     String lastName;
     String inn;
     String phone;
 
-    public SyntheticManager() {
+    public ManagerDto() {
     }
 
     public String getFirstName() {
@@ -43,7 +43,7 @@ public class SyntheticManager {
 
     @Override
     public String toString() {
-        return "SyntheticManager{" +
+        return "ManagerDto{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", inn='" + inn + '\'' +

@@ -30,10 +30,16 @@ public class Phone {
     }
 
     public Phone(String phoneNumber, Boolean isPrimary){
-        //this.guid = UUID.randomUUID();
         this.phoneNumber = phoneNumber;
         this.isPrimary = isPrimary;
         this.dateCreate = LocalDateTime.now();
+    }
+
+    public Phone(String phoneNumber, Boolean isPrimary, UUID managerGuid){
+        this.phoneNumber = phoneNumber;
+        this.isPrimary = isPrimary;
+        this.dateCreate = LocalDateTime.now();
+        this.manager = new Manager(managerGuid);
     }
 
     public UUID getGuid() {

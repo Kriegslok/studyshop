@@ -4,7 +4,9 @@ import com.mihail.studyshop.entities.Manager;
 import com.mihail.studyshop.entities.ManagerRepository;
 import com.mihail.studyshop.entities.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mapping.AccessOptions;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -34,8 +36,8 @@ public class ManagerServiceImpl implements ManagerService {
         Manager manager1 = new Manager(manager.getFirstName(), manager.getLastName(), manager.getInn());
         manager1 = managerRepository.save(manager1);
         List<Phone> phones = getManagerPhones(manager1.getGuid());
-        if(phones.isEmpty() && !manager.getPhones().isEmpty()){
-            for(Phone phone: manager.getPhones()){
+        if (phones.isEmpty() && !manager.getPhones().isEmpty()) {
+            for (Phone phone : manager.getPhones()) {
                 phone.setManager(manager1);
                 phone.setGuid(phoneService.addPhone(phone).getGuid());
                 //manager1.getPhones().add(phone);
@@ -67,16 +69,16 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Manager getManager(UUID managerGuid) {
-        return managerRepository.findById(managerGuid).orElseThrow(()->
+        return managerRepository.findById(managerGuid).orElseThrow(() ->
                 new IllegalArgumentException(
-                "author with id: " + managerGuid + " could not be found"));
+                        "author with id: " + managerGuid + " could not be found"));
     }
 
     @Override
     public List<Manager> getByFirstAndLastName(String firstName, String lastName) {
         List<Manager> managers = new ArrayList<>();
         managers = managerRepository.findByFirstNameAndLastName(firstName, lastName);
-        if(managers.isEmpty()) throw new IllegalArgumentException(
+        if (managers.isEmpty()) throw new IllegalArgumentException(
                 "author with firstName and lastName: " + firstName + " " + lastName + " could not be found");
         return managers;
     }
@@ -85,7 +87,7 @@ public class ManagerServiceImpl implements ManagerService {
     public List<Manager> findByFirstName(String firstName) {
         List<Manager> managers = new ArrayList<>();
         managers = managerRepository.findByFirstName(firstName);
-        if(managers.isEmpty()) throw new IllegalArgumentException(
+        if (managers.isEmpty()) throw new IllegalArgumentException(
                 "author with firstName: " + firstName + " could not be found");
         return managers;
     }
@@ -94,7 +96,7 @@ public class ManagerServiceImpl implements ManagerService {
     public List<Manager> findByLastName(String lastName) {
         List<Manager> managers = new ArrayList<>();
         managers = managerRepository.findByLastName(lastName);
-        if(managers.isEmpty()) throw new IllegalArgumentException(
+        if (managers.isEmpty()) throw new IllegalArgumentException(
                 "author with lastName: " + lastName + " could not be found");
         return managers;
     }
@@ -137,13 +139,13 @@ public class ManagerServiceImpl implements ManagerService {
     public Manager addPhoneToManager(UUID managerGuid, Phone phone) {
         Manager manager = getManager(managerGuid);
         try {
+            phone.setManager(manager);
+            phoneService.addPhone(phone);
             addPhoneToManager(managerGuid, phone.getGuid());
             return editManager(managerGuid, manager);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-        phoneService.addPhone(phone);
-
         manager.getPhones().add(phone);
         return editManager(managerGuid, manager);
     }
