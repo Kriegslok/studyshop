@@ -1,14 +1,13 @@
 package com.mihail.studyshop.service;
 
-import com.mihail.studyshop.entities.Manager;
-import com.mihail.studyshop.entities.ManagerRepository;
+
 import com.mihail.studyshop.entities.Phone;
 import com.mihail.studyshop.entities.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,8 +30,6 @@ public class PhoneServiceImpl implements PhoneService {
     public Phone addPhone(Phone phone) {
         if (phone.getPrimary() == null || phone.getPhoneNumber() == null)
             throw new IllegalArgumentException("Phone number is null or Primary is null");
-        Phone phone1 = new Phone(phone.getPhoneNumber(), phone.getPrimary());
-//        phone1.setManager(managerService.getManager(phone.getManager().getGuid()));
 
         return phoneRepository.save(phone);
     }
@@ -54,14 +51,14 @@ public class PhoneServiceImpl implements PhoneService {
     public Phone getPhone(UUID phoneGuid) {
         return phoneRepository.findById(phoneGuid).orElseThrow(() ->
                 new IllegalArgumentException(
-                        "author with id: " + phoneGuid + " could not be found"));
+                        "Phone with id: " + phoneGuid + " could not be found"));
     }
 
     @Override
     public Phone getPhone(String number) {
         Phone phone = phoneRepository.getPhoneByPhoneNumber(number);
         if(phone == null) throw  new IllegalArgumentException(
-                "author with id: " + number + " could not be found");
+                "Phone with number: " + number + " could not be found");
         return phone;
 
     }

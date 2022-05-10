@@ -4,9 +4,7 @@ import com.mihail.studyshop.entities.Manager;
 import com.mihail.studyshop.entities.ManagerRepository;
 import com.mihail.studyshop.entities.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mapping.AccessOptions;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public Manager addManger(Manager manager) {
         if (manager.getFirstName() == null || manager.getLastName() == null || manager.getInn() == null)
-            throw new IllegalArgumentException("author need a zipcode");
+            throw new IllegalArgumentException("Manager firstName or lastName or inn is null");
         Manager manager1 = new Manager(manager.getFirstName(), manager.getLastName(), manager.getInn());
         manager1 = managerRepository.save(manager1);
         List<Phone> phones = getManagerPhones(manager1.getGuid());
@@ -40,8 +38,6 @@ public class ManagerServiceImpl implements ManagerService {
             for (Phone phone : manager.getPhones()) {
                 phone.setManager(manager1);
                 phone.setGuid(phoneService.addPhone(phone).getGuid());
-                //manager1.getPhones().add(phone);
-
             }
         }
         manager1.setPhones(phones);

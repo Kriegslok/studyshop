@@ -1,0 +1,9 @@
+1) Добавить сущность Customer с полями List<Phone>, List<Address>, List<Order>
+2) Добавить сущность Address с полями ZipCode, Country, City, Street, House, Entrance, Floor, Apartment
+3) Добавить сущность Order с полями List<Goods>, Status, userComment, managerComment, serviceComment
+4) Сущность Basket реализовать как List<Goods>, собранную из всех Order, у которых статус "New". Новый Order можно создать только если нет других Order co статусом New.
+5) Добавить сущность Goods с полями Name, Description, Photo, vendorCode, Vendor, Price
+6) Добавить сущность Store (склад) с полями List<Goods>. Нужно искать товары по артикулу, выводить общее количество, общую стоимость
+7) Добавить сущность User с полями Role
+8) Добавить сущность Vendor с полями List<VendorCode> vendorCodes, Name, Description
+9) Добавить сущность VendorCode с полями Vendor, code
