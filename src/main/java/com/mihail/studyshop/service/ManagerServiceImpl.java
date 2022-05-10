@@ -67,7 +67,7 @@ public class ManagerServiceImpl implements ManagerService {
     public Manager getManager(UUID managerGuid) {
         return managerRepository.findById(managerGuid).orElseThrow(() ->
                 new IllegalArgumentException(
-                        "author with id: " + managerGuid + " could not be found"));
+                        "Manager with id: " + managerGuid + " could not be found"));
     }
 
     @Override

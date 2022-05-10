@@ -1,7 +1,9 @@
 package com.mihail.studyshop.service;
 
+import com.mihail.studyshop.entities.Goods;
 import com.mihail.studyshop.entities.Manager;
 import com.mihail.studyshop.entities.Vendor;
+import com.mihail.studyshop.entities.VendorCode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,20 +12,30 @@ import java.util.UUID;
 @Service
 public interface VendorService {
 
-    public Vendor addVendor(Vendor vendor);
+    Vendor addVendor(Vendor vendor);
 
-    public List<Vendor> getVendors();
+    List<Vendor> getVendors();
 
-    public Vendor getVendorById(UUID guid);
+    Vendor getVendorById(UUID guid);
 
-    public Vendor getVendor(UUID guid);
+    Vendor getVendor(UUID guid);
 
-    public Vendor deleteVendor(UUID guid);
+    Vendor deleteVendor(UUID guid);
 
-    public Vendor editVendor(UUID guid, Vendor vendor);
+    Vendor editVendor(UUID guid, Vendor vendor);
 
-    public Vendor addVendorCodeToVendor(UUID vendorGuid, UUID vendorCodeGuid);
+    Vendor addVendorCodeToVendor(UUID vendorGuid, UUID vendorCodeGuid);
 
-    public List<Vendor> getByName(String name);
+    Vendor addVendorCodeToVendor(UUID vendorGuid, VendorCode vendorCode);
+
+    List<Vendor> getByName(String name);
+
+    List<VendorCode> getVendorCodes(UUID guid);
+
+    List<Goods> getGoods(UUID guid);
+
+    Vendor addGoodsToVendor(UUID vendorGuid, UUID goodsGuid);
+
+    Vendor addGoodsToVendor(UUID vendorGuid, Goods goods);
 
 }

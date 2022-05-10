@@ -23,11 +23,22 @@ public class Vendor {
     @JsonManagedReference
     private List<VendorCode> vendorCodes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "vendor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Goods> goodsList = new ArrayList<>();
+
     private String name;
 
     private String description;
 
     protected Vendor() {
+    }
+
+    public Vendor(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.dateCreate = LocalDateTime.now();
+
     }
 
     public UUID getGuid() {
@@ -68,5 +79,13 @@ public class Vendor {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
     }
 }

@@ -5,5 +5,6 @@
 5) Добавить сущность Goods с полями Name, Description, Photo, vendorCode, Vendor, Price
 6) Добавить сущность Store (склад) с полями List<Goods>. Нужно искать товары по артикулу, выводить общее количество, общую стоимость
 7) Добавить сущность User с полями Role
-8) Добавить сущность Vendor с полями List<VendorCode> vendorCodes, Name, Description
-9) Добавить сущность VendorCode с полями Vendor, code
++8) Добавить сущность Vendor с полями List<VendorCode> vendorCodes, Name, Description
+8a) Добавить к сущности Vendor List<Goods> с возможностью вывести все товары по вендору, добавить товар в вендора, удалить товар из вендора
++9) Добавить сущность VendorCode с полями Vendor, code
