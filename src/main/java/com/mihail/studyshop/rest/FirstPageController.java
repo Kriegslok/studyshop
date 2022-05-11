@@ -11,7 +11,7 @@ public class FirstPageController {
     @GetMapping("/hello")
     public String helloPage(@RequestParam(value = "name", required = false) String name,
                             @RequestParam(value = "surname", required = false) String surname,
-                            Model model){
+                            Model model) {
         model.addAttribute("message", "Hello " + name + " " + surname);
 
         //System.out.println("Hello, " + name + " " + surname);
@@ -19,19 +19,26 @@ public class FirstPageController {
     }
 
     @GetMapping("/addNewManager")
-    public String addNewManagerPage(Model model){
+    public String addNewManagerPage(Model model) {
 
         return "addNewManager";
     }
 
+    @GetMapping("/addNewVendor")
+    public String addNewVendorPage(Model model) {
+
+        return "addNewVendor";
+    }
+
+
     @GetMapping("/searchManager")
-    public String searchManagerPage(Model model){
+    public String searchManagerPage(Model model) {
 
         return "searchManager";
     }
 
     @GetMapping("/addManagersPhone")
-    public String addManagersPhonePage(@Nullable @RequestParam(name = "managerGuid") String managerGuid, Model model){
+    public String addManagersPhonePage(@Nullable @RequestParam(name = "managerGuid") String managerGuid, Model model) {
         model.addAttribute("managerGuid", managerGuid);
         System.out.println("managerGuid " + managerGuid);
         return "addManagersPhone";

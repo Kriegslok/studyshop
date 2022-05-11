@@ -3,7 +3,9 @@ package com.mihail.studyshop.rest;
 import com.mihail.studyshop.entities.Manager;
 import com.mihail.studyshop.entities.Phone;
 import com.mihail.studyshop.entities.dto.ManagerDto;
+import com.mihail.studyshop.entities.model_mapper.MapperService;
 import com.mihail.studyshop.service.ManagerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -17,9 +19,12 @@ import java.util.*;
 public class ManagerController {
 
     private final ManagerService managerService;
+    private final MapperService mapperService;
 
-    ManagerController(ManagerService managerService) {
+    @Autowired
+    ManagerController(ManagerService managerService, MapperService mapperService) {
         this.managerService = managerService;
+        this.mapperService = mapperService;
     }
 
 //    @PostMapping("/manager")
@@ -29,9 +34,7 @@ public class ManagerController {
 
     @PostMapping(path = "/manager", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     Manager newManager(ManagerDto newManager) {
-        Manager manager = new Manager(newManager.getFirstName(), newManager.getLastName(), newManager.getInn());
-        manager.setPhones(Arrays.asList(new Phone(newManager.getPhone(), true)));
-        return managerService.addManger(manager);
+        return managerService.addManger(mapperService.managerFromDto(newManager));
     }
 
     @GetMapping(value = "/manager{firstName}{lastName}")

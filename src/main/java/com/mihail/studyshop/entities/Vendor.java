@@ -3,6 +3,8 @@ package com.mihail.studyshop.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,11 +21,13 @@ public class Vendor {
     @CreationTimestamp
     private LocalDateTime dateCreate;
 
-    @OneToMany(mappedBy = "vendor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<VendorCode> vendorCodes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "vendor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Goods> goodsList = new ArrayList<>();
 
