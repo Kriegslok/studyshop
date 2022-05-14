@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Title</title>
+</head>
+<body>
+<p th:text="${#lists.size(vendors)}" />
+<table style="border: 1px solid gray; border-collapse: collapse;">
+    <tr>
+        <th style="border: 1px solid gray;">guid</th>
+        <th style="border: 1px solid gray;">Имя</th>
+        <th style="border: 1px solid gray;">Описание</th>
+        <th style="border: 1px solid gray;">Создан</th>
+        <th style="border: 1px solid gray;">Артикулы</th>
+        <th style="border: 1px solid gray;">+</th>
+
+        <th style="border: 1px solid gray;">Товары</th>
+
+    </tr>
+    <tr data-th-each="vendor : ${vendors}">
+        <td style="border: 1px solid gray;"><p th:text="${vendor.guid}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${vendor.name}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${vendor.description}"></p></td>
+        <td style="border: 1px solid gray;"><p th:text="${vendor.dateCreate}"></p></td>
+        <td style="border: 1px solid gray;">
+            <form method="get" action="/getVendorCodes">
+                <input name="vendorGuid" type="hidden" th:value="${vendor.guid}"/>
+                <input type="submit" value="Get Vendor Codes" />
+            </form>
+        </td>
+        <td style="border: 1px solid gray;">
+            <form method="get" action="/addNewVendorCode">
+                <input name="vendorGuid" type="hidden" th:value="${vendor.guid}"/>
+                <input type="submit" value="Add Vendor Code" />
+            </form>
+        </td>
+        <td style="border: 1px solid gray;">
+            <form method="get" action="/getVendorGoods">
+                <input name="vendorGuid" type="hidden" th:value="${vendor.guid}"/>
+                <input type="submit" value="Get all goods" />
+            </form>
+        </td>
+    </tr>
+
+
+</table>
+
+<br>
+<a href="/addNewVendor">Add Vendor</a>
+<br>
+<a href="/searchVendor">Search Vendor</a>
+<br>
+<a href="/addNewVendor">Add manager</a>
+<br>
+<a href="/searchVendor">Search Manager</a>
+
+</body></html>

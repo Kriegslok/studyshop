@@ -26,7 +26,7 @@ public class GoodsServiceImpl implements GoodsService{
 
     @Override
     public Goods addGoods(Goods goods) {
-        if(goods.getName() == null || goods.getPrice() == null || goods.getVendor() == null || goods.getVendorCode() == null)
+        if(goods.getName() == null || goods.getVendor() == null || goods.getVendorCode() == null)
             throw new IllegalArgumentException("Goods name, price, vendor or vendor code is null");
 
         return goodsRepository.save(goods);

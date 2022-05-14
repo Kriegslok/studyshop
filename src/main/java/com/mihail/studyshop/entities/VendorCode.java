@@ -26,6 +26,12 @@ public class VendorCode {
     protected VendorCode() {
     }
 
+    public VendorCode(Vendor vendor, String code) {
+        this.vendor = vendor;
+        this.code = code;
+        dateCreate = LocalDateTime.now();
+    }
+
     public UUID getGuid() {
         return guid;
     }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="addVendorCodeToVendor" method="post" action="addNewVendorCode">
+    Vendor: <p th:text ="${vendorName}" ></p>
+    Code: <input type="text" name="code"/><br>
+    <input name="vendorGuid" type="hidden" th:value="${vendorGuid}"/>
+    <input type="submit" value="Add" />
+    <br>
+    <a href="searchVendor">Search Vendor</a>
+</form>
+</body>
+</html>

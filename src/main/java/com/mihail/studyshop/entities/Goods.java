@@ -1,11 +1,15 @@
 package com.mihail.studyshop.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,9 +32,44 @@ public class Goods {
     @JoinColumn(name = "vendor_guid")
     @JsonBackReference
     private Vendor vendor;
-    private Double price;
+
+    @OneToMany(mappedBy = "goods", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Price> priceList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "goods_category_guid")
+    @JsonBackReference
+    private GoodsCategory goodsCategory;
 
     protected Goods() {
+    }
+
+    public Goods(String name, String description, String photo, @NotNull VendorCode vendorCode, Price price, GoodsCategory goodsCategory) {
+        this.name = name;
+        this.description = description;
+        this.photo = photo;
+        this.vendorCode = vendorCode;
+        this.vendor = vendorCode.getVendor();
+        this.priceList.add(price);
+        this.goodsCategory = goodsCategory;
+        this.dateCreate = LocalDateTime.now();
+    }
+
+    public List<Price> getPriceList() {
+        return priceList;
+    }
+
+    public void setPriceList(List<Price> priceList) {
+        this.priceList = priceList;
+    }
+
+    public GoodsCategory getGoodsCategory() {
+        return goodsCategory;
+    }
+
+    public void setGoodsCategory(GoodsCategory goodsCategory) {
+        this.goodsCategory = goodsCategory;
     }
 
     public UUID getGuid() {
@@ -89,11 +128,4 @@ public class Goods {
         this.vendor = vendor;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 }
