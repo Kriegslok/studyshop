@@ -37,43 +37,5 @@ public class PhoneController {
         return "searchManager";
     }
 
-//    @GetMapping(value = "/manager{firstName}{lastName}")
-//    String getManager(@RequestParam("firstName") String firstName, @Nullable @RequestParam(name = "lastName") String lastName, Model model) {
-//        System.out.println("getManager " + firstName + " " + lastName);
-//        List<Manager> managerList = new ArrayList<>();
-//        try {
-//            if(firstName != null && lastName != null && !firstName.isEmpty() && !lastName.isEmpty()){
-//                managerList.addAll(managerService.getByFirstAndLastName(firstName, lastName));
-//            } else if(firstName != null && !firstName.isEmpty()){
-//                managerList.addAll(managerService.findByFirstName(firstName));
-//            } else if(lastName != null && !lastName.isEmpty()){
-//                managerList.addAll(managerService.findByLastName(lastName));
-//            }else{
-//                managerList.addAll(managerService.getManagers());
-//            }
-//
-//        } catch (IllegalArgumentException e) {
-//            e.printStackTrace();
-//        } finally {
-//            model.addAttribute("managers", managerList);
-//            return "managerFoundData";
-//        }
-//    }
-//
-//    @GetMapping(value = "/managers")
-//    List<Manager> getManagers(@RequestParam("firstName") String firstName, @Nullable @RequestParam(name = "lastName") String lastName) {
-//        System.out.println("getManager " + firstName + " " + lastName);
-//        List<Manager> managerList = new ArrayList<>();
-//
-//        try {
-//            if (lastName != null)
-//                managerList.addAll(managerService.getByFirstAndLastName(firstName, lastName));
-//            else managerList.addAll(managerService.findByFirstName(firstName));
-//        } catch (IllegalArgumentException e) {
-//            return managerList;
-//        }
-//
-//        return managerList;
-//    }
 
 }

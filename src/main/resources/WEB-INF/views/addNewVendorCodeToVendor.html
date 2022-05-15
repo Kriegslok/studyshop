@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form name="addVendorCodeToVendor" method="post" action="addNewVendorCode">
+<form name="addNewVendorCodeToVendor" method="post" action="addNewVendorCode">
     Vendor: <p th:text ="${vendorName}" ></p>
     Code: <input type="text" name="code"/><br>
     <input name="vendorGuid" type="hidden" th:value="${vendorGuid}"/>

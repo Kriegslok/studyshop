@@ -10,17 +10,25 @@ import java.util.UUID;
 @Service
 public interface VendorCodeService {
 
-    public VendorCode addVendorCode(VendorCode vendorCode);
+    public VendorCode addVendorCode(VendorCode vendorCode) throws IllegalArgumentException;
 
     public List<VendorCode> getVendorCodes();
 
     public VendorCode getVendorCodeById(UUID guid);
 
-    public VendorCode getVendorCode(UUID guid);
+    public VendorCode getVendorCode(UUID guid) throws IllegalArgumentException;
 
-    public VendorCode getVendorCodeByCode(String code);
+    public List<VendorCode> getVendorCodeByCode(String code);
 
     public VendorCode deleteVendorCode(UUID guid);
 
     public VendorCode editVendorCode(UUID guid, VendorCode vendorCode);
+
+    public boolean exists (VendorCode vendorCode);
+
+    public void setVendorService(VendorService vendorService);
+
+    public List<VendorCode> getVendorCodeByGuidOrVendorOrCode(String guid, String vendorGuid, String code);
+
+    public List<VendorCode> deleteVendorCodeByGuidOrVendorOrCode(String guid, String vendorGuid, String code);
 }

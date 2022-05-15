@@ -5,15 +5,7 @@
 </head>
 <body>
 <p Error />
-<table style="border: 1px solid gray; border-collapse: collapse;">
-
-    <tr data-th-each="string : ${strings}">
-        <td style="border: 1px solid gray;"><p th:text="${string}"></p></td>
-    </tr>
-
-
-</table>
-
+<p> Error: <span th:text =  "${message}"></span></p>
 <br>
 <a href="/addNewVendor">Add Vendor</a>
 <br>

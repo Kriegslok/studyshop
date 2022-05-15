@@ -1,15 +1,11 @@
 package com.mihail.studyshop.entities.model_mapper;
 
-import com.mihail.studyshop.entities.Manager;
-import com.mihail.studyshop.entities.Phone;
-import com.mihail.studyshop.entities.Vendor;
-import com.mihail.studyshop.entities.VendorCode;
-import com.mihail.studyshop.entities.dto.ManagerDto;
-import com.mihail.studyshop.entities.dto.PhoneDto;
-import com.mihail.studyshop.entities.dto.VendorCodeDto;
-import com.mihail.studyshop.entities.dto.VendorDto;
+import com.mihail.studyshop.entities.*;
+import com.mihail.studyshop.entities.dto.*;
+import com.mihail.studyshop.service.GoodsCategoryService;
 import com.mihail.studyshop.service.VendorService;
 import com.mihail.studyshop.utils.UuidUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -18,6 +14,15 @@ import java.util.UUID;
 
 @Service
 public class MapperServiceImpl implements MapperService {
+    private final VendorService vendorService;
+    private final GoodsCategoryService goodsCategoryService;
+
+    @Autowired
+    public MapperServiceImpl(VendorService vendorService, GoodsCategoryService goodsCategoryService) {
+        this.vendorService = vendorService;
+        this.goodsCategoryService = goodsCategoryService;
+    }
+
     @Override
     public Manager managerFromDto(ManagerDto managerDto) {
         Manager manager = new Manager(managerDto.getFirstName(), managerDto.getLastName(), managerDto.getInn());
@@ -38,7 +43,7 @@ public class MapperServiceImpl implements MapperService {
     }
 
     @Override
-    public VendorCode vendorCodeFromDto(VendorCodeDto vendorCodeDto, VendorService vendorService) {
+    public VendorCode vendorCodeFromDto(VendorCodeDto vendorCodeDto) {
         if (vendorCodeDto.getVendorGuid() != null && UuidUtils.convertableToUuid(vendorCodeDto.getVendorGuid())) {
             VendorCode vendorCode = new VendorCode(vendorService.getVendor(UUID.fromString(vendorCodeDto.getVendorGuid())), vendorCodeDto.getCode().trim());
             return vendorCode;
@@ -58,5 +63,16 @@ public class MapperServiceImpl implements MapperService {
 
         throw new IllegalArgumentException(exceptionSb.toString());
 
+    }
+
+    @Override
+    public GoodsCategory goodsCategoryFromDto(GoodsCategoryDto goodsCategoryDto) {
+        if(goodsCategoryDto == null
+                || goodsCategoryDto.getDescription() == null
+                || goodsCategoryDto.getParentGuid() == null
+                || !UuidUtils.convertableToUuid(goodsCategoryDto.getParentGuid())) throw new IllegalArgumentException("Goods category description or pagent guid not valid");
+        GoodsCategory goodsCategory = new GoodsCategory(goodsCategoryService.getGoodsCategory(UUID.fromString(goodsCategoryDto.getParentGuid())),
+                goodsCategoryDto.getDescription());
+        return goodsCategory;
     }
 }

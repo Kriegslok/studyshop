@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="addNewVendorCode" method="post" action="addNewVendorCode">
+    <label for="vendors">Choose a vendor</label>
+    <select id="vendors" name="vendorGuid" >
+        <option th:value="${vendor.guid}" th:text = "${vendor.name}" data-th-each="vendor : ${vendors}"></option>
+    </select>
+    Code: <input type="text" name="code"/><br>
+    <input type="submit" value="Add" />
+    <br>
+    <a href="searchVendor">Search Vendor</a>
+</form>
+</body>
+</html>

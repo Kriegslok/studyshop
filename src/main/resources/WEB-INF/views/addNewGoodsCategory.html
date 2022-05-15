@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="addNewGoodsCategory" method="post" action="addNewGoodsCategory">
+    <label for="categories">Choose parent</label>
+    <select id="categories" name="parentGuid" >
+        <option th:value="${goodsCategory.guid}" th:text = "${goodsCategory.description}" data-th-each="goodsCategory : ${goodsCategoryList}"></option>
+    </select>
+    Description: <input type="text" name="description"/><br>
+    <input type="submit" value="Add" />
+    <br>
+    <a href="searchVendor">Search Vendor</a>
+</form>
+</body>
+</html>

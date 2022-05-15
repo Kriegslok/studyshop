@@ -21,12 +21,12 @@ public class GoodsCategory {
     @CreationTimestamp
     private LocalDateTime dateCreate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "parent_category_guid")
     @JsonBackReference
     private GoodsCategory parentCategory;
 
-    @OneToMany(mappedBy = "guid", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<GoodsCategory> childrenCategories = new ArrayList<>();
 

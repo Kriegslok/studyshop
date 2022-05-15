@@ -23,6 +23,7 @@ public class VendorServiceImpl implements VendorService {
         this.vendorRepository = vendorRepository;
         this.vendorCodeService = vendorCodeService;
         this.goodsService = goodsService;
+        vendorCodeService.setVendorService(this);
     }
 
     @Transactional
