@@ -31,7 +31,8 @@ public class Price {
     @JsonBackReference
     private Goods goods;
 
-    protected Price() {
+    public Price() {
+        this.dateCreate = LocalDateTime.now();
     }
 
     public Price(Double price, String comment, VendorCode vendorCode, Goods goods) {

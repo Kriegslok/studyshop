@@ -2,9 +2,12 @@ package com.mihail.studyshop.service;
 
 import com.mihail.studyshop.entities.Goods;
 import com.mihail.studyshop.entities.GoodsRepository;
+import com.mihail.studyshop.entities.Price;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,5 +33,26 @@ public class GoodsServiceImpl implements GoodsService{
             throw new IllegalArgumentException("Goods name, price, vendor or vendor code is null");
 
         return goodsRepository.save(goods);
+    }
+
+    @Override
+    public List<Goods> getGoodsByCategory(UUID uuid) {
+        return goodsRepository.findByGoodsCategory(uuid);
+    }
+
+    @Override
+    @Transactional
+    public Goods addPrice(UUID guid, Price price) {
+        Goods goods = getGoods(guid);
+        price.setVendorCode(goods.getVendorCode());
+        price.setGoods(goods);
+        if(goods.getPriceList().add(price))
+        return goods;
+        throw new IllegalArgumentException("Unable to add price");
+    }
+
+    @Override
+    public Goods getGoodsByVendorCode(UUID guid) {
+        return goodsRepository.getGoodsByVendorCode(guid);
     }
 }

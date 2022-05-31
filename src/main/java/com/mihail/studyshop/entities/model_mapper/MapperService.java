@@ -16,4 +16,8 @@ public interface MapperService {
     VendorCode vendorCodeFromDto(VendorCodeDto vendorCodeDto);
 
     GoodsCategory goodsCategoryFromDto(GoodsCategoryDto goodsCategoryDto);
+
+    Goods goodsFromDto(GoodsDto goodsDto);
+
+    Price priceFromDto (PriceDto priceDto);
 }

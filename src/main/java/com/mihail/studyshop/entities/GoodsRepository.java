@@ -9,4 +9,6 @@ public interface GoodsRepository extends JpaRepository<Goods, UUID> {
     Goods getGoodsByGuid(UUID guid);
     List<Goods> getGoodsByName(String name);
     List<Goods> findByName(String name);
+    List<Goods> findByGoodsCategory(UUID guid);
+    Goods getGoodsByVendorCode(UUID guid);
 }

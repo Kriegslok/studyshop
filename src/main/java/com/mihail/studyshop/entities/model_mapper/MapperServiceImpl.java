@@ -3,6 +3,7 @@ package com.mihail.studyshop.entities.model_mapper;
 import com.mihail.studyshop.entities.*;
 import com.mihail.studyshop.entities.dto.*;
 import com.mihail.studyshop.service.GoodsCategoryService;
+import com.mihail.studyshop.service.VendorCodeService;
 import com.mihail.studyshop.service.VendorService;
 import com.mihail.studyshop.utils.UuidUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ import java.util.UUID;
 @Service
 public class MapperServiceImpl implements MapperService {
     private final VendorService vendorService;
+    private final VendorCodeService vendorCodeService;
     private final GoodsCategoryService goodsCategoryService;
 
     @Autowired
-    public MapperServiceImpl(VendorService vendorService, GoodsCategoryService goodsCategoryService) {
+    public MapperServiceImpl(VendorService vendorService, VendorCodeService vendorCodeService, GoodsCategoryService goodsCategoryService) {
         this.vendorService = vendorService;
+        this.vendorCodeService = vendorCodeService;
         this.goodsCategoryService = goodsCategoryService;
     }
 
@@ -74,5 +77,27 @@ public class MapperServiceImpl implements MapperService {
         GoodsCategory goodsCategory = new GoodsCategory(goodsCategoryService.getGoodsCategory(UUID.fromString(goodsCategoryDto.getParentGuid())),
                 goodsCategoryDto.getDescription());
         return goodsCategory;
+    }
+
+    @Override
+    public Goods goodsFromDto(GoodsDto goodsDto) {
+        if(goodsDto == null
+        || goodsDto.getName() == null
+                || !UuidUtils.convertableToUuid(goodsDto.getGoodsCategory())
+                || !UuidUtils.convertableToUuid(goodsDto.getVendorCode()))
+            throw new IllegalArgumentException("Goods name or category or vendor code or vendor guid not valid");
+        Goods goods = new Goods(goodsDto.getName(), goodsDto.getDescription(), goodsDto.getPhoto(), vendorCodeService.getVendorCode(UUID.fromString(goodsDto.getVendorCode())),
+                goodsCategoryService.getGoodsCategory(UUID.fromString(goodsDto.getGoodsCategory())));
+        goods.getPriceList().add(new Price(Double.parseDouble(goodsDto.getPrice().trim()), goodsDto.getPriceComment(), goods));
+        return goods;
+    }
+
+    @Override
+    public Price priceFromDto(PriceDto priceDto) {
+        if(priceDto == null) throw new IllegalArgumentException("Price dto not valid");
+        Price price = new Price();
+        price.setPrice(Double.parseDouble(priceDto.getPrice().trim()));
+        price.setComment(priceDto.getComment());
+        return price;
     }
 }

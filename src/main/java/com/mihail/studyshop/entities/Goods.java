@@ -56,6 +56,25 @@ public class Goods {
         this.dateCreate = LocalDateTime.now();
     }
 
+    public Goods(String name, String description, String photo, @NotNull VendorCode vendorCode, GoodsCategory goodsCategory) {
+        this.name = name;
+        this.description = description;
+        this.photo = photo;
+        this.vendorCode = vendorCode;
+        this.vendor = vendorCode.getVendor();
+        this.goodsCategory = goodsCategory;
+        this.dateCreate = LocalDateTime.now();
+    }
+
+
+    public Goods(String name, @NotNull VendorCode vendorCode, GoodsCategory goodsCategory) {
+        this.name = name;
+        this.vendorCode = vendorCode;
+        this.vendor = vendorCode.getVendor();
+        this.goodsCategory = goodsCategory;
+        this.dateCreate = LocalDateTime.now();
+    }
+
     public List<Price> getPriceList() {
         return priceList;
     }
