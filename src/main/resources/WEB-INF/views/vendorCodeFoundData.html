@@ -33,10 +33,41 @@
                 <input type="submit" value="Delete" />
             </form>
         </td>
+        <td style="border: 1px solid gray;">
+            <form onsubmit="return false;">
+                <input name="vendorCode" type="hidden" th:value="${vendorCode.guid}"/>
+                <input name="vendor" id = "vendor" type="hidden" th:value="${vendorCode.vendor.guid}"/>
+                <input name="nameF" id = "nameF" type="text"/>
+
+                <button onclick=myFunction(vendorCode.value,vendor.value,nameF.value)>Click me</button>
+            </form>
+        </td>
     </tr>
 
 
 </table>
+
+
+
+<script type="text/javascript">
+    function myFunction(vendorCode, vendor, name) {
+        var xhr = new XMLHttpRequest();
+        var url = "/addNewGoods/";
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var json = JSON.parse(xhr.responseText);
+                console.log(json);
+            }
+        };
+        var data = JSON.stringify({"vendorCode": vendorCode, "vendor": vendor, "name": name});
+        xhr.send(data);
+    }
+
+
+</script>
+
 
 <br>
 <a href="/addNewVendor">Add Vendor</a>

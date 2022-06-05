@@ -35,10 +35,12 @@ public class GoodsController {
     }
 
 
-    @PostMapping(path = "/addNewGoods", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    String addNewGoods(GoodsDto goodsDto, Model model) {
-        goodsService.addGoods(mapperService.goodsFromDto(goodsDto));
-        return "searchGoods";
+    //@PostMapping(path = "/addNewGoods", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/addNewGoods", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    String addNewGoods(@RequestBody String request){//GoodsDto goodsDto) {
+        System.out.println(request);
+        //goodsService.addGoods(mapperService.goodsFromDto(goodsDto));
+        return "searchVendor";
     }
 
     @GetMapping(value = "/getGoods")
