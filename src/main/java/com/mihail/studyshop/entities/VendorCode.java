@@ -1,6 +1,7 @@
 package com.mihail.studyshop.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,6 +17,7 @@ public class VendorCode {
     @GeneratedValue(generator = "uuid-gen")
     private UUID guid;
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateCreate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -23,6 +25,10 @@ public class VendorCode {
     @JsonBackReference
     private Vendor vendor;
     private String code;
+
+    @OneToOne(mappedBy = "vendorCode")
+    @JsonBackReference
+    private Goods goods;
 
     protected VendorCode() {
     }
@@ -65,6 +71,14 @@ public class VendorCode {
         this.code = code;
     }
 
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,4 +91,5 @@ public class VendorCode {
     public int hashCode() {
         return Objects.hash(vendor, code);
     }
+
 }

@@ -1,6 +1,7 @@
 package com.mihail.studyshop.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -18,9 +19,11 @@ public class Phone {
     @GeneratedValue(generator = "uuid-gen")
     private UUID guid;
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateCreate;
     private String phoneNumber;
     private Boolean isPrimary;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_guid")
     @JsonBackReference

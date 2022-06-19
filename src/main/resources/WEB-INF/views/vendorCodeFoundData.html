@@ -22,9 +22,10 @@
         <td style="border: 1px solid gray;"><p th:text="${vendorCode.code}"></p></td>
         <td style="border: 1px solid gray;"><p th:text="${vendorCode.dateCreate}"></p></td>
         <td style="border: 1px solid gray;">
-            <form method="get" action="/getGoods">
-                <input name="vendorCodeGuid" type="hidden" th:value="${vendorCode.guid}"/>
-                <input type="submit" value="show goods" />
+            <form onsubmit="return false;">
+                <input name="vendorCodeF" type="hidden" th:value="${vendorCode.guid}"/>
+                <button onclick=requestGoodsByVendorCodeGuid(vendorCodeF.value)>Show goods</button>
+                <!--input type="submit" value="show goods" /-->
             </form>
         </td>
         <td style="border: 1px solid gray;">
@@ -37,9 +38,16 @@
             <form onsubmit="return false;">
                 <input name="vendorCode" type="hidden" th:value="${vendorCode.guid}"/>
                 <input name="vendor" id = "vendor" type="hidden" th:value="${vendorCode.vendor.guid}"/>
-                <input name="nameF" id = "nameF" type="text"/>
 
-                <button onclick=myFunction(vendorCode.value,vendor.value,nameF.value)>Click me</button>
+                <label for="categories">Choose parent</label>
+                <select name="goodsCategoryF" id="categories">
+                    <option th:value="${goodsCategory.guid}" th:text = "${goodsCategory.description}" data-th-each="goodsCategory : ${goodsCategoryList}"></option>
+                </select>
+
+                <input name="nameF" id = "nameF" type="text"/>
+                <input name="priceF" id = "priceF" type="text"/>
+
+                <button onclick=sendNewGoodsData(vendorCode.value,vendor.value,nameF.value,priceF.value,goodsCategoryF.value)>Click me</button>
             </form>
         </td>
     </tr>
@@ -50,18 +58,36 @@
 
 
 <script type="text/javascript">
-    function myFunction(vendorCode, vendor, name) {
+    function sendNewGoodsData(vendorCode, vendor, name, price, goodsCategory) {
         var xhr = new XMLHttpRequest();
         var url = "/addNewGoods/";
         xhr.open('POST', url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
+            alert(xhr.responseText);
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var json = JSON.parse(xhr.responseText);
                 console.log(json);
             }
         };
-        var data = JSON.stringify({"vendorCode": vendorCode, "vendor": vendor, "name": name});
+        var data = JSON.stringify({"vendorCode": vendorCode, "vendor": vendor, "name": name, "price": price, "goodsCategory": goodsCategory});
+        xhr.send(data);
+    }
+
+    function requestGoodsByVendorCodeGuid(vendorCodeGuid) {
+        var xhr = new XMLHttpRequest();
+        var url = "/getGoods/";
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            alert(xhr.responseText);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var json = JSON.parse(xhr.responseText);
+                console.log(json);
+            }
+        };
+        var data = JSON.stringify({"goodsGuid":null, "vendorCodeGuid": vendorCodeGuid});
+        alert(data);
         xhr.send(data);
     }
 

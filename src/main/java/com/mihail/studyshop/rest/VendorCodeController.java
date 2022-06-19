@@ -1,8 +1,10 @@
 package com.mihail.studyshop.rest;
 
+import com.mihail.studyshop.entities.GoodsCategory;
 import com.mihail.studyshop.entities.VendorCode;
 import com.mihail.studyshop.entities.dto.VendorCodeDto;
 import com.mihail.studyshop.entities.model_mapper.MapperService;
+import com.mihail.studyshop.service.GoodsCategoryService;
 import com.mihail.studyshop.service.VendorCodeService;
 import com.mihail.studyshop.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,14 @@ public class VendorCodeController {
     private final VendorCodeService vendorCodeService;
     private  final VendorService vendorService;
     private final MapperService mapperService;
+    private final GoodsCategoryService goodsCategoryService;
 
     @Autowired
-    public VendorCodeController(VendorCodeService vendorCodeService, VendorService vendorService, MapperService mapperService) {
+    public VendorCodeController(VendorCodeService vendorCodeService, VendorService vendorService, MapperService mapperService, GoodsCategoryService goodsCategoryService) {
         this.vendorCodeService = vendorCodeService;
         this.vendorService = vendorService;
         this.mapperService = mapperService;
+        this.goodsCategoryService = goodsCategoryService;
     }
 
     @PostMapping(path = "/addNewVendorCode", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
@@ -47,6 +51,10 @@ public class VendorCodeController {
         List<VendorCode> vendorCodeList = new ArrayList<>();
         vendorCodeList.addAll(vendorCodeService.getVendorCodeByGuidOrVendorOrCode(vendorGuid, codeGuid, code));
             model.addAttribute("vendorCodeList", vendorCodeList);
+
+            List<GoodsCategory> goodsCategoryList = new ArrayList<>();
+            goodsCategoryList.addAll(goodsCategoryService.getGoodsCategories());
+            model.addAttribute("goodsCategoryList", goodsCategoryList);
             return "vendorCodeFoundData";
     }
 

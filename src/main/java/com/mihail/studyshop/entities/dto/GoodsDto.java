@@ -74,4 +74,18 @@ public class GoodsDto {
     public void setGoodsCategory(String goodsCategory) {
         this.goodsCategory = goodsCategory;
     }
+
+    @Override
+    public String toString() {
+        return "GoodsDto{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", vendorCode='" + vendorCode + '\'' +
+                ", vendor='" + vendor + '\'' +
+                ", goodsCategory='" + goodsCategory + '\'' +
+                ", photo='" + photo + '\'' +
+                ", price='" + price + '\'' +
+                ", priceComment='" + priceComment + '\'' +
+                '}';
+    }
 }

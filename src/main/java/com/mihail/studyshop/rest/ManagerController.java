@@ -60,13 +60,16 @@ public class ManagerController {
         }
     }
 
-    @GetMapping(value = "/managers")
-    List<Manager> getManagers(@RequestParam("firstName") String firstName, @Nullable @RequestParam(name = "lastName") String lastName) {
+    @RequestMapping(value = "/managers", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes = MediaType.ALL_VALUE )
+    @ResponseBody
+    List<Manager> getManagers(@Nullable @RequestParam("firstName") String firstName, @Nullable @RequestParam(name = "lastName") String lastName) {
         System.out.println("getManager " + firstName + " " + lastName);
         List<Manager> managerList = new ArrayList<>();
 
         try {
-            if (lastName != null)
+            if(firstName == null && lastName == null){
+                managerList.addAll(managerService.getManagers());
+            }else if (lastName != null)
                 managerList.addAll(managerService.getByFirstAndLastName(firstName, lastName));
             else managerList.addAll(managerService.findByFirstName(firstName));
         } catch (IllegalArgumentException e) {

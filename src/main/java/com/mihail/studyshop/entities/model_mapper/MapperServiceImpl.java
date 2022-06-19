@@ -70,10 +70,11 @@ public class MapperServiceImpl implements MapperService {
 
     @Override
     public GoodsCategory goodsCategoryFromDto(GoodsCategoryDto goodsCategoryDto) {
-        if(goodsCategoryDto == null
+        if (goodsCategoryDto == null
                 || goodsCategoryDto.getDescription() == null
                 || goodsCategoryDto.getParentGuid() == null
-                || !UuidUtils.convertableToUuid(goodsCategoryDto.getParentGuid())) throw new IllegalArgumentException("Goods category description or pagent guid not valid");
+                || !UuidUtils.convertableToUuid(goodsCategoryDto.getParentGuid()))
+            throw new IllegalArgumentException("Goods category description or pagent guid not valid");
         GoodsCategory goodsCategory = new GoodsCategory(goodsCategoryService.getGoodsCategory(UUID.fromString(goodsCategoryDto.getParentGuid())),
                 goodsCategoryDto.getDescription());
         return goodsCategory;
@@ -81,20 +82,22 @@ public class MapperServiceImpl implements MapperService {
 
     @Override
     public Goods goodsFromDto(GoodsDto goodsDto) {
-        if(goodsDto == null
-        || goodsDto.getName() == null
+        if (goodsDto == null
+                || goodsDto.getName() == null
                 || !UuidUtils.convertableToUuid(goodsDto.getGoodsCategory())
-                || !UuidUtils.convertableToUuid(goodsDto.getVendorCode()))
+                || !UuidUtils.convertableToUuid(goodsDto.getVendorCode())) {
             throw new IllegalArgumentException("Goods name or category or vendor code or vendor guid not valid");
+        }
         Goods goods = new Goods(goodsDto.getName(), goodsDto.getDescription(), goodsDto.getPhoto(), vendorCodeService.getVendorCode(UUID.fromString(goodsDto.getVendorCode())),
                 goodsCategoryService.getGoodsCategory(UUID.fromString(goodsDto.getGoodsCategory())));
         goods.getPriceList().add(new Price(Double.parseDouble(goodsDto.getPrice().trim()), goodsDto.getPriceComment(), goods));
+//        System.out.println(goods.toString());
         return goods;
     }
 
     @Override
     public Price priceFromDto(PriceDto priceDto) {
-        if(priceDto == null) throw new IllegalArgumentException("Price dto not valid");
+        if (priceDto == null) throw new IllegalArgumentException("Price dto not valid");
         Price price = new Price();
         price.setPrice(Double.parseDouble(priceDto.getPrice().trim()));
         price.setComment(priceDto.getComment());

@@ -1,5 +1,6 @@
 package com.mihail.studyshop.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,10 +37,13 @@ public class Manager {
     private String lastName;
     private String inn;
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateCreate;
     private Boolean isBlocked;
     private Boolean isOnHoliday;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime employmentDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime firedDate;
 
    @OneToMany(mappedBy = "manager",fetch = FetchType.EAGER, cascade = CascadeType.ALL)

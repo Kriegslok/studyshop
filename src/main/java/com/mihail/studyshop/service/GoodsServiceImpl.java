@@ -14,10 +14,12 @@ import java.util.UUID;
 public class GoodsServiceImpl implements GoodsService{
 
     private final GoodsRepository goodsRepository;
+    private final PriceService priceService;
 
     @Autowired
-    public GoodsServiceImpl(GoodsRepository goodsRepository) {
+    public GoodsServiceImpl(GoodsRepository goodsRepository, PriceService priceService) {
         this.goodsRepository = goodsRepository;
+        this.priceService = priceService;
     }
 
     @Override
@@ -31,6 +33,15 @@ public class GoodsServiceImpl implements GoodsService{
     public Goods addGoods(Goods goods) {
         if(goods.getName() == null || goods.getVendor() == null || goods.getVendorCode() == null)
             throw new IllegalArgumentException("Goods name, price, vendor or vendor code is null");
+        if(getGoodsByVendorCode(goods.getVendorCode().getGuid()) != null){
+            if(!goods.getPriceList().isEmpty()){
+                for (Price price : goods.getPriceList()) {
+                   addPriceIfNotExists(getGoodsByVendorCode(goods.getVendorCode().getGuid()).getGuid(), price);
+                }
+
+            }
+            return getGoodsByVendorCode(goods.getVendorCode().getGuid());
+        }
 
         return goodsRepository.save(goods);
     }
@@ -46,13 +57,34 @@ public class GoodsServiceImpl implements GoodsService{
         Goods goods = getGoods(guid);
         price.setVendorCode(goods.getVendorCode());
         price.setGoods(goods);
-        if(goods.getPriceList().add(price))
+        priceService.addPrice(price);
+        List<Price> prices = goods.getPriceList();
+        prices.add(price);
+        goods.setPriceList(prices);
+
         return goods;
-        throw new IllegalArgumentException("Unable to add price");
+    }
+
+    @Override
+    @Transactional
+    public Goods addPriceIfNotExists(UUID guid,Price price) {
+        Goods goods = getGoods(guid);
+        price.setVendorCode(goods.getVendorCode());
+        price.setGoods(goods);
+        System.out.println(price.getVendorCode().getGuid());
+        List<Price> priceList = priceService.getPriceByVendorCode(price.getVendorCode().getGuid());
+        if(!priceList.contains(price)) {
+            priceService.addPrice(price);
+            List<Price> prices = goods.getPriceList();
+            prices.add(price);
+            goods.setPriceList(prices);
+        }
+
+        return goods;
     }
 
     @Override
     public Goods getGoodsByVendorCode(UUID guid) {
-        return goodsRepository.getGoodsByVendorCode(guid);
+        return goodsRepository.getGoodsByVendorCodeGuid(guid);
     }
 }

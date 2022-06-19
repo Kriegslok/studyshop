@@ -1,5 +1,6 @@
 package com.mihail.studyshop.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,6 +21,7 @@ public class Vendor {
     @GeneratedValue(generator = "uuid-gen")
     private UUID guid;
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateCreate;
 
     @LazyCollection(LazyCollectionOption.FALSE)

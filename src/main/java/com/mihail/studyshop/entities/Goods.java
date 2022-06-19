@@ -1,6 +1,7 @@
 package com.mihail.studyshop.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,12 +20,15 @@ public class Goods {
     @GeneratedValue(generator = "uuid-gen")
     private UUID guid;
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateCreate;
 
     private String name;
     private String description;
     private String photo;
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "vendor_code_guid")
     @JsonBackReference
     private VendorCode vendorCode;
 
@@ -33,7 +37,8 @@ public class Goods {
     @JsonBackReference
     private Vendor vendor;
 
-    @OneToMany(mappedBy = "goods", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "goods", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Price> priceList = new ArrayList<>();
 
@@ -147,4 +152,18 @@ public class Goods {
         this.vendor = vendor;
     }
 
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "guid=" + guid +
+                ", dateCreate=" + dateCreate +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", photo='" + photo + '\'' +
+                ", vendorCode=" + vendorCode +
+                ", vendor=" + vendor +
+                ", priceList=" + priceList +
+                ", goodsCategory=" + goodsCategory +
+                '}';
+    }
 }

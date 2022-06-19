@@ -14,6 +14,8 @@ public interface GoodsService {
 
     Goods addGoods(Goods goods);
 
+    Goods addPriceIfNotExists(UUID guid, Price price);
+
     List<Goods> getGoodsByCategory(UUID uuid);
 
     Goods addPrice(UUID guid, Price price);

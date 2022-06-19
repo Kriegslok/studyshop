@@ -1,5 +1,9 @@
 package com.mihail.studyshop.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.mihail.studyshop.entities.Goods;
 import com.mihail.studyshop.entities.GoodsCategory;
 import com.mihail.studyshop.entities.dto.GoodsCategoryDto;
@@ -34,19 +38,26 @@ public class GoodsController {
         this.mapperService = mapperService;
     }
 
-
-    //@PostMapping(path = "/addNewGoods", consumes = {MediaType.APPLICATION_JSON_VALUE})
     @RequestMapping(value = "/addNewGoods", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    String addNewGoods(@RequestBody String request){//GoodsDto goodsDto) {
-        System.out.println(request);
+    @ResponseBody
+    Goods addNewGoods(@RequestBody GoodsDto goodsDto){
+        System.out.println(goodsDto.toString());
+
+        return goodsService.addGoods(mapperService.goodsFromDto(goodsDto));
         //goodsService.addGoods(mapperService.goodsFromDto(goodsDto));
-        return "searchVendor";
+        //TODO сделать маппинг из ДТО чтобы создавались объект "товар" со вложенным объектом "цена". Если товар уже есть, цена должна к нему добавляться.
+        //return "searchVendor";
     }
 
-    @GetMapping(value = "/getGoods")
-    String getGoods(@Nullable @RequestParam("goodsGuid") String goodsCategoryGuid,
-                    @Nullable @RequestParam("vendorCodeGuid") String vendorCodeGuid,
-                    Model model) {
+
+    @RequestMapping(value = "/getGoods", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    List<Goods> getGoods(@RequestBody String json) throws JsonProcessingException {
+        System.out.println(json);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(json);
+        String goodsCategoryGuid = jsonNode.get("goodsGuid").asText();
+        String vendorCodeGuid = jsonNode.get("vendorCodeGuid").asText();
         System.out.println("getGoods by category" + " " + goodsCategoryGuid);
         System.out.println("getGoods by vendorCode" + " " + vendorCodeGuid);
         List<Goods> goodsList = new ArrayList<>();
@@ -57,8 +68,7 @@ public class GoodsController {
         goodsList.addAll(goodsService.getGoodsByCategory(UUID.fromString(goodsCategoryGuid)));
         else if (UuidUtils.convertableToUuid(vendorCodeGuid))
             goodsList.add(goodsService.getGoodsByVendorCode(UUID.fromString(vendorCodeGuid)));
-        model.addAttribute("goodsList", goodsList);
-        return "goodsFoundData";
+        return goodsList;
     }
 
     @PostMapping(path = "/addPrice", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})

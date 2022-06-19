@@ -1,12 +1,14 @@
 package com.mihail.studyshop.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +19,7 @@ public class Price {
     @GeneratedValue(generator = "uuid-gen")
     private UUID guid;
     @CreationTimestamp
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateCreate;
     private Double price;
     private String comment;
@@ -25,6 +28,7 @@ public class Price {
     @JoinColumn(name = "vendor_code_guid")
     @JsonBackReference
     private VendorCode vendorCode;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "goods_guid")
@@ -109,5 +113,18 @@ public class Price {
                 ", vendorCode=" + vendorCode +
                 ", goods=" + goods +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Price price1 = (Price) o;
+        return Objects.equals(price, price1.price) && Objects.equals(comment, price1.comment) && Objects.equals(vendorCode, price1.vendorCode) && Objects.equals(goods, price1.goods);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(price, comment, vendorCode, goods);
     }
 }
