@@ -1,6 +1,7 @@
 package com.mihail.studyshop.rest;
 
 import com.mihail.studyshop.entities.Vendor;
+import com.mihail.studyshop.myBeans.MyTestIface;
 import com.mihail.studyshop.service.GoodsCategoryService;
 import com.mihail.studyshop.service.VendorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,26 +10,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
 public class FirstPageController {
     private final VendorService vendorService;
     private final GoodsCategoryService goodsCategoryService;
+    private final MyTestIface myTestIface;
 
     @Autowired
-    public FirstPageController(VendorService vendorService, GoodsCategoryService goodsCategoryService) {
+    public FirstPageController(VendorService vendorService, GoodsCategoryService goodsCategoryService, MyTestIface myTestIface) {
         this.vendorService = vendorService;
         this.goodsCategoryService = goodsCategoryService;
+        this.myTestIface = myTestIface;
     }
+
+
 
     @GetMapping("/hello")
     public String helloPage(@RequestParam(value = "name", required = false) String name,
                             @RequestParam(value = "surname", required = false) String surname,
                             Model model) {
         model.addAttribute("message", "Hello " + name + " " + surname);
+
+        myTestIface.load();
+
+        //LinkedHashSet
 
         return "hello";
     }
