@@ -36,7 +36,7 @@ public class FirstPageController {
 
         myTestIface.load();
 
-        //LinkedHashSet
+        List list = new ArrayList();
 
         return "hello";
     }
